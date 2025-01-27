@@ -7,12 +7,14 @@ type Props = {
     }
 }
 
-export function generateMetadata({ params: { term } }: Props) {
+export async function generateMetadata({ params }: Props) {
+    const { term } = await params;
     return {
-        title: `Results for ${term}`
+        title:  `Results for ${term}`
     }
 }
 
-export default function SearchResults({ params: { term } }: Props) {
+export default async function SearchResults({ params}: Props) {
+    const { term } = await params;
     return <Gallery search={term} />
 }

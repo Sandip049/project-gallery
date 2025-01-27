@@ -21,7 +21,7 @@ export default async function Gallery( { search }: GalleryProps ) {
     }
 
     const photosWithBlur = await addBlurredDataUrls(images)
-    console.log(photosWithBlur, 'photosWithBlur');
+    // console.log(photosWithBlur, 'photosWithBlur');
 
     const photoData = photosWithBlur.map((photo) => {
         const widthHeightRatio = photo.height / photo.width
@@ -32,7 +32,7 @@ export default async function Gallery( { search }: GalleryProps ) {
     return (
         <section className="px-1 my-3 grid grid-cols-gallery auto-rows-[10px]">
                 {photoData.map((photo) => (
-                    <div key={photo.id} className="w-[250px] justify-self-center"
+                    <div key={photo.id} className="w-[245px] justify-self-center"
                     style={{ gridRow: `span ${photo.photoSpans}` }}>
                         <Link href={photo.url} target='_blank' className="grid place-content-center">
                         <div className="rounded-xl overflow-hidden group">
@@ -41,7 +41,7 @@ export default async function Gallery( { search }: GalleryProps ) {
                                 alt={photo.alt}
                                 width={photo.width}
                                 height={photo.height}
-                                sizes='250px'
+                                sizes='245px'
                                 placeholder='blur'
                                 blurDataURL={photo.blurredDataUrl}
                                 className="group-hover:scale-105 transition-transform "
