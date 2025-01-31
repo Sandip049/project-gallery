@@ -1,5 +1,7 @@
 import React from "react";
+import { Instagram, Youtube } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 export default function App() {
   return (
     <div className="w-full min-h-screen bg-white">
@@ -64,6 +66,20 @@ export default function App() {
           </div>
           </div>
       </main>
+        <div className="pt-8 text-black container mx-auto px-6 py-8 md:px-12 lg:px-24">
+                <h3 className="font-bold mb-4">Follow Us</h3>
+                <div className="space-y-4">
+                  <Link href="#" className="flex items-center justify-between border-b pb-2 group">
+                    <span>Instagram</span>
+                    <Instagram className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                  </Link>
+                  <Link href="#" className="flex items-center justify-between border-b pb-2 group">
+                    <span>Youtube</span>
+                    <Youtube className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                  </Link>
+                </div>
+        </div>
     </div>
   );
 }
+

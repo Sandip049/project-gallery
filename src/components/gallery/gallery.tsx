@@ -8,6 +8,7 @@ import Link from 'next/link'
 
 type GalleryProps = {
     search?: string | undefined
+    page?: string | undefined
 }
 
 export default async function Gallery( { search }: GalleryProps ) {
@@ -30,9 +31,9 @@ export default async function Gallery( { search }: GalleryProps ) {
         return { ...photo, photoSpans };
     });
     return (
-        <section className="px-1 my-3 grid grid-cols-gallery auto-rows-[10px]">
+        <section className="px-1 my-3 grid grid-cols-gallery auto-rows-[10px] w-[90%] mx-auto">
                 {photoData.map((photo) => (
-                    <div key={photo.id} className="w-[245px] justify-self-center"
+                    <div key={photo.id} className="w-[250px] justify-self-center"
                     style={{ gridRow: `span ${photo.photoSpans}` }}>
                         <Link href={photo.url} target='_blank' className="grid place-content-center">
                         <div className="rounded-xl overflow-hidden group">
@@ -41,7 +42,7 @@ export default async function Gallery( { search }: GalleryProps ) {
                                 alt={photo.alt}
                                 width={photo.width}
                                 height={photo.height}
-                                sizes='245px'
+                                sizes='250px'
                                 placeholder='blur'
                                 blurDataURL={photo.blurredDataUrl}
                                 className="group-hover:scale-105 transition-transform "
