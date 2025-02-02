@@ -10,7 +10,7 @@ export default function Search() {
     const router = useRouter();
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.push(`/results/${query}`);
+        if (query) router.push(`/results/${query}`);
         setQuery("");
     };
 
