@@ -5,24 +5,35 @@ import { CombinedPhoto } from '@/models/image'
 import { fetchImages } from '@/services/api/fetchImages'
 import addBlurredDataUrls from '@/services/blurData/blurData'
 import Link from 'next/link'
+import getPagination from '@/lib/getpagination'
+import Footer from '../footer/footer'
 
 type GalleryProps = {
     search?: string | undefined
     page?: string | undefined
 }
 
-export default async function Gallery( { search }: GalleryProps ) {
+export default async function Gallery( { search ='curated', page }: GalleryProps ) {
 
-    const url = search ? `https://api.pexels.com/v1/search?query=${search}` :'https://api.pexels.com/v1/curated'
+    let url
+    if (search == 'curated' && page) {
+        url = `https://api.pexels.com/v1/curated?page=${page}`
+    } else if (search == 'curated') {
+        url = 'https://api.pexels.com/v1/curated'
+    } else if (!page) {
+        url = `https://api.pexels.com/v1/search?query=${search}`
+    } else {
+        url = `https://api.pexels.com/v1/search?query=${search}&page=${page}`
+    }
+
 
     const images: CombinedPhoto | undefined = await fetchImages(url)
 
-    if (!images) {
+    if (!images || images.per_page === 0) {
         return <div className='text-2xl text-red-500 flex justify-center items-center m-4 font-bold'>No images found</div>
     }
 
     const photosWithBlur = await addBlurredDataUrls(images)
-    // console.log(photosWithBlur, 'photosWithBlur');
 
     const photoData = photosWithBlur.map((photo) => {
         const widthHeightRatio = photo.height / photo.width
@@ -30,7 +41,15 @@ export default async function Gallery( { search }: GalleryProps ) {
         const photoSpans = Math.ceil(galleryHeight / 10) + 1
         return { ...photo, photoSpans };
     });
+    const {prevPage, nextPage }  = getPagination(images)
+    console.log(images.next_page ,"next", images.prev_page, "prev");
+    
+
+    const FooterProps = {search, page, nextPage, prevPage}
+
+
     return (
+        <>
         <section className="px-1 my-3 grid grid-cols-gallery auto-rows-[10px] w-[90%] mx-auto">
                 {photoData.map((photo) => (
                     <div key={photo.id} className="w-[250px] justify-self-center"
@@ -49,10 +68,11 @@ export default async function Gallery( { search }: GalleryProps ) {
                             />
                         </div>
                         </Link>
-                        {/* <h2 className="text-lg font-bold">{photo.alt}</h2> */}
                     </div>
                 ))}
         </section>
+        <Footer {...FooterProps} />
+        </>
     );
 
 }
