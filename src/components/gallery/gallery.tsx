@@ -42,8 +42,7 @@ export default async function Gallery( { search ='curated', page }: GalleryProps
         return { ...photo, photoSpans };
     });
     const {prevPage, nextPage }  = getPagination(images)
-    console.log(images.next_page ,"next", images.prev_page, "prev");
-    
+    // console.log(images.next_page ,"next", images.prev_page, "prev");
 
     const FooterProps = {search, page, nextPage, prevPage}
 
